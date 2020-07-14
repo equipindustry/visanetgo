@@ -21,3 +21,9 @@ type MerchantDefineData struct {
 	Mdd75 string `json:"MDD75"`
 	Mdd77 int    `json:"MDD77"`
 }
+
+// SessionResponse struct.
+type SessionResponse struct {
+	SessionKey     string `json:"sessionKey"`
+	ExpirationTime int    `json:"expirationTime"`
+}
