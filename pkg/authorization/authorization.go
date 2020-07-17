@@ -3,6 +3,7 @@ package authorization
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -47,58 +48,6 @@ type Recurrence struct {
 	Type          string  `json:"type"`
 }
 
-// ResponseAuthorization struct.
-type ResponseAuthorization struct {
-	Header  Header        `json:"header"`
-	Order   OrderResponse `json:"order"`
-	DataMap DataMap       `json:"dataMap"`
-}
-
-// DataMap struct.
-type DataMap struct {
-	Currency          string `json:"CURRENCY"`
-	TransactionDate   string `json:"TRANSACTION_DATE"`
-	Terminal          string `json:"TERMINAL"`
-	ActionCode        string `json:"ACTION_CODE"`
-	TraceNumber       string `json:"TRACE_NUMBER"`
-	EciDescription    string `json:"ECI_DESCRIPTION"`
-	Eci               string `json:"ECI"`
-	Brand             string `json:"BRAND"`
-	Card              string `json:"CARD"`
-	Merchant          string `json:"MERCHANT"`
-	Status            string `json:"STATUS"`
-	Adquirente        string `json:"ADQUIRENTE"`
-	ActionDescription string `json:"ACTION_DESCRIPTION"`
-	IDUnico           string `json:"ID_UNICO"`
-	Amount            string `json:"AMOUNT"`
-	ProcessCode       string `json:"PROCESS_CODE"`
-	RecurrenceStatus  string `json:"RECURRENCE_STATUS"`
-	TransactionID     string `json:"TRANSACTION_ID"`
-	AuthorizationCode string `json:"AUTHORIZATION_CODE"`
-}
-
-// Header struct.
-type Header struct {
-	EcoreTransactionUUID string `json:"ecoreTransactionUUID"`
-	EcoreTransactionDate int64  `json:"ecoreTransactionDate"`
-	Millis               int64  `json:"millis"`
-}
-
-// OrderResponse struct.
-type OrderResponse struct {
-	TokenID           string  `json:"tokenId"`
-	PurchaseNumber    string  `json:"purchaseNumber"`
-	ProductID         string  `json:"productId"`
-	Amount            float64 `json:"amount"`
-	Currency          string  `json:"currency"`
-	AuthorizedAmount  float64 `json:"authorizedAmount"`
-	AuthorizationCode string  `json:"authorizationCode"`
-	ActionCode        string  `json:"actionCode"`
-	TraceNumber       string  `json:"traceNumber"`
-	TransactionDate   string  `json:"transactionDate"`
-	TransactionID     string  `json:"transactionId"`
-}
-
 // CreateAuthorization returns struct and string.
 func (a *Authorization) CreateAuthorization(token string) (*ResponseAuthorization, error) {
 	url := fmt.Sprintf(utils.GetAuthorizationAPIURL(visanet.Credentials.IsDevelopment), visanet.Credentials.MerchantID)
@@ -120,6 +69,13 @@ func (a *Authorization) CreateAuthorization(token string) (*ResponseAuthorizatio
 
 	body, err := client.Client(http.MethodPost, url, bytes.NewBuffer(byteArray), header)
 	if err != nil {
+		if body != nil {
+			var errResponse ErrorAuthorization
+			if err := json.Unmarshal(body, &errResponse); err != nil {
+				return nil, err
+			}
+			return nil, errors.New(errResponse.Data.ActionDescription)
+		}
 		return nil, err
 	}
 
