@@ -5,16 +5,17 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/equipindustry/visanetgo/pkg/visanet"
+	"github.com/equipindustry/visanetgo/utils"
+
 	"github.com/equipindustry/visanetgo/pkg/client"
-	"github.com/spf13/viper"
 )
 
 // CreateToken returns a string
-func CreateToken() string {
-	url := viper.GetString("VISANET_DEV_AUTHORIZATION_API")
-	user := viper.GetString("VISANET_DEV_USER")
-	pwd := viper.GetString("VISANET_DEV_PASSWD")
-	encodedCredential := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", user, pwd)))
+func CreateToken() (*string, error) {
+	url := utils.GetSecurityAPIURL(visanet.Credentials.IsDevelopment)
+	credential := fmt.Sprintf("%s:%s", visanet.Credentials.User, visanet.Credentials.Password)
+	encodedCredential := base64.StdEncoding.EncodeToString([]byte(credential))
 
 	header := http.Header{
 		"Authorization": {
@@ -24,10 +25,10 @@ func CreateToken() string {
 
 	body, err := client.Client(http.MethodPost, url, nil, header)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 
 	token := string(body)
 
-	return token
+	return &token, nil
 }
