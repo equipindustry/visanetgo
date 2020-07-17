@@ -45,7 +45,7 @@ func Client(method string, url string, body io.Reader, headers http.Header) ([]b
 
 	if err != nil {
 		err = fmt.Errorf("%v: %s", err, string(obj))
-		return nil, err
+		return obj, err
 	}
 
 	if res.StatusCode >= status.Ok && res.StatusCode <= status.Accepted {
