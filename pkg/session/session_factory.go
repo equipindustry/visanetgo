@@ -2,28 +2,29 @@ package session
 
 import (
 	"encoding/json"
-	"fmt"
+
+	log "github.com/sirupsen/logrus"
 )
 
-// ISessionResponse interface.
-type ISessionResponse interface {
+// Responser interface.
+type Responser interface {
 	SetSession(session string)
 	GetSession() *Response
 }
 
-// ISessionFailResponse interface.
-type ISessionFailResponse interface {
+// FailResponser interface.
+type FailResponser interface {
 	SetFailSession(session string)
 	GetFailSession() *MessageError
 }
 
-// NewSessionSuccessResponseFactory return ISessionResponse.
-func NewSessionSuccessResponseFactory() ISessionResponse {
+// NewSessionSuccessResponseFactory return Responser.
+func NewSessionSuccessResponseFactory() Responser {
 	return &Response{}
 }
 
-// NewSessionFailResponseFactory return ISessionFailResponse.
-func NewSessionFailResponseFactory() ISessionFailResponse {
+// NewSessionFailResponseFactory return FailResponser.
+func NewSessionFailResponseFactory() FailResponser {
 	return &MessageError{}
 }
 
@@ -47,7 +48,7 @@ type Response struct {
 // SetSession func.
 func (s *Response) SetSession(session string) {
 	if err := json.Unmarshal([]byte(session), &s); err != nil {
-		fmt.Println(err)
+		log.Debug(err)
 	}
 }
 
@@ -59,7 +60,7 @@ func (s *Response) GetSession() *Response {
 // SetFailSession func.
 func (m *MessageError) SetFailSession(session string) {
 	if err := json.Unmarshal([]byte(session), &m); err != nil {
-		fmt.Println(err)
+		log.Debug(err)
 	}
 }
 
