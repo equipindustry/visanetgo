@@ -98,3 +98,26 @@ var AuthorizationFailResponse = `{
     "TRANSACTION_ID": "991180900182558"
   }
 }`
+
+// AuthorizationTokenNotExists string.
+var AuthorizationTokenNotExists = `{
+  "errorCode": 400,
+  "errorMessage": "Token id does not exist",
+  "header": {
+    "ecoreTransactionUUID": "c2e993e9-19d3-4f79-997e-fcddc879be05",
+    "ecoreTransactionDate": 1595364988184,
+    "millis": 639
+  },
+  "data": {
+    "CURRENCY": "0604",
+    "AMOUNT": "1.0",
+    "MERCHANT": "522591303"
+  }
+}`
+
+// AuthorizationFailPayload string.
+var AuthorizationFailPayload = `{
+  "errorCode": 400,
+  "errorMessage": "PurchaseNumber is wrong or empty.",
+  "data": {}
+}`
