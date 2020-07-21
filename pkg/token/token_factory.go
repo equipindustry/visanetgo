@@ -1,13 +1,13 @@
 package token
 
-// IToken interface.
-type IToken interface {
+// Tokenizer interface.
+type Tokenizer interface {
 	SetToken(token string)
 	GetToken() string
 }
 
-// NewTokenFactory return IToken.
-func NewTokenFactory() IToken {
+// NewTokenFactory return Tokenizer.
+func NewTokenFactory() Tokenizer {
 	return &Token{}
 }
 

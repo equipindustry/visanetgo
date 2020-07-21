@@ -74,7 +74,10 @@ func (a *Authorization) CreateAuthorization(token string) (*ResponseAuthorizatio
 			if err := json.Unmarshal(body, &errResponse); err != nil {
 				return nil, err
 			}
-			return nil, errors.New(errResponse.Data.ActionDescription)
+			if errResponse.Data.ActionCode != "" {
+				return nil, errors.New(errResponse.Data.ActionDescription)
+			}
+			return nil, errors.New(errResponse.ErrorMessage)
 		}
 		return nil, err
 	}

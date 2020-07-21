@@ -2,35 +2,36 @@ package authorization
 
 import (
 	"encoding/json"
-	"fmt"
+
+	log "github.com/sirupsen/logrus"
 )
 
-// IAuthorizationResponse interface.
-type IAuthorizationResponse interface {
+// Responser interface.
+type Responser interface {
 	SetAuthorization(authorization string)
 	GetAuthorization() *Response
 }
 
-// IAuthorizationFailResponse interface.
-type IAuthorizationFailResponse interface {
+// FailResponser interface.
+type FailResponser interface {
 	SetFailAuthorization(authorization string)
 	GetFailAuthorization() *FailAuthorization
 }
 
-// NewAuthorizationSuccessResponseFactory return ISessionResponse.
-func NewAuthorizationSuccessResponseFactory() IAuthorizationResponse {
+// NewAuthorizationSuccessResponseFactory return Responser.
+func NewAuthorizationSuccessResponseFactory() Responser {
 	return &Response{}
 }
 
-// NewFailAuthorizationSuccessResponseFactory return ISessionResponse.
-func NewFailAuthorizationSuccessResponseFactory() IAuthorizationFailResponse {
+// NewFailAuthorizationSuccessResponseFactory return FailResponser.
+func NewFailAuthorizationSuccessResponseFactory() FailResponser {
 	return &FailAuthorization{}
 }
 
 // SetAuthorization func.
 func (a *Response) SetAuthorization(authorization string) {
 	if err := json.Unmarshal([]byte(authorization), &a); err != nil {
-		fmt.Println(err)
+		log.Debug(err)
 	}
 }
 
@@ -42,7 +43,7 @@ func (a *Response) GetAuthorization() *Response {
 // SetFailAuthorization func.
 func (f *FailAuthorization) SetFailAuthorization(authorization string) {
 	if err := json.Unmarshal([]byte(authorization), &f); err != nil {
-		fmt.Println(err)
+		log.Debug(err)
 	}
 }
 
