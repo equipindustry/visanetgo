@@ -54,9 +54,21 @@ func (f *FailAuthorization) GetFailAuthorization() *FailAuthorization {
 
 // Response struct.
 type Response struct {
-	Header  header  `json:"header"`
-	Order   order   `json:"order"`
-	DataMap dataMap `json:"dataMap"`
+	Header      header      `json:"header"`
+	Fulfillment fulfillment `json:"fulfillment"`
+	Order       order       `json:"order"`
+	DataMap     dataMap     `json:"dataMap"`
+}
+
+// fulfillment struct.
+type fulfillment struct {
+	Channel     string `json:"channel"`
+	MerchantID  string `json:"merchantId"`
+	TerminalID  string `json:"terminalId"`
+	CaptureType string `json:"captureType"`
+	Countable   bool   `json:"countable"`
+	FastPayment bool   `json:"fastPayment"`
+	Signature   string `json:"signature"`
 }
 
 // dataMap struct.
