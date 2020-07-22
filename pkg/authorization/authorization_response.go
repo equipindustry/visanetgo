@@ -2,9 +2,28 @@ package authorization
 
 // ResponseAuthorization struct.
 type ResponseAuthorization struct {
-	Header  Header        `json:"header"`
-	Order   OrderResponse `json:"order"`
-	DataMap DataMap       `json:"dataMap"`
+	Header      Header        `json:"header"`
+	Fulfillment Fulfillment   `json:"fulfillment"`
+	Order       OrderResponse `json:"order"`
+	DataMap     DataMap       `json:"dataMap"`
+}
+
+// Fulfillment struct.
+type Fulfillment struct {
+	Channel     string `json:"channel"`
+	MerchantID  string `json:"merchantId"`
+	TerminalID  string `json:"terminalId"`
+	CaptureType string `json:"captureType"`
+	Countable   bool   `json:"countable"`
+	FastPayment bool   `json:"fastPayment"`
+	Signature   string `json:"signature"`
+}
+
+// Header struct.
+type Header struct {
+	EcoreTransactionUUID string `json:"ecoreTransactionUUID"`
+	EcoreTransactionDate int64  `json:"ecoreTransactionDate"`
+	Millis               int64  `json:"millis"`
 }
 
 // DataMap struct.
@@ -28,13 +47,6 @@ type DataMap struct {
 	RecurrenceStatus  string `json:"RECURRENCE_STATUS"`
 	TransactionID     string `json:"TRANSACTION_ID"`
 	AuthorizationCode string `json:"AUTHORIZATION_CODE"`
-}
-
-// Header struct.
-type Header struct {
-	EcoreTransactionUUID string `json:"ecoreTransactionUUID"`
-	EcoreTransactionDate int64  `json:"ecoreTransactionDate"`
-	Millis               int64  `json:"millis"`
 }
 
 // OrderResponse struct.
