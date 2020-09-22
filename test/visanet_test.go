@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/equipindustry/visanetgo/pkg/api/status"
+
 	"github.com/equipindustry/visanetgo/mock"
 	"github.com/equipindustry/visanetgo/pkg/client"
 	"github.com/spf13/viper"
@@ -23,7 +25,7 @@ func TestCreateToken(t *testing.T) {
 
 	mock.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		return &http.Response{
-			StatusCode: 201,
+			StatusCode: status.Created,
 			Body:       r,
 		}, nil
 	}
@@ -60,7 +62,7 @@ func TestCreateSession(t *testing.T) {
 
 	mock.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		return &http.Response{
-			StatusCode: 200,
+			StatusCode: status.Ok,
 			Body:       r,
 		}, nil
 	}
@@ -90,7 +92,7 @@ func TestCreateAuthorization(t *testing.T) {
 
 	mock.GetDoFunc = func(*http.Request) (*http.Response, error) {
 		return &http.Response{
-			StatusCode: 201,
+			StatusCode: status.Created,
 			Body:       r,
 		}, nil
 	}
