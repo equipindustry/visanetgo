@@ -3,14 +3,12 @@ package test
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"testing"
 
 	"github.com/equipindustry/visanetgo/mock"
-	"github.com/equipindustry/visanetgo/model"
 	"github.com/equipindustry/visanetgo/pkg/client"
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
@@ -78,16 +76,13 @@ func TestCreateSession(t *testing.T) {
 		t.Error(err)
 	}
 
-	body, err := ioutil.ReadAll(response.Body)
+	_, err = ioutil.ReadAll(response.Body)
 	if err != nil {
 		t.Error(err)
 	}
 
-	sessionResponse := model.SessionResponse{}
-	err = json.Unmarshal(body, &sessionResponse)
-
 	assert.Nil(t, err)
-	assert.EqualValues(t, "e242ccbf2e4ab1bbd705e20cbebf9bd3df739e7a0239a14294b300d83995b092", sessionResponse.SessionKey)
+	assert.EqualValues(t, "e242ccbf2e4ab1bbd705e20cbebf9bd3df739e7a0239a14294b300d83995b092", "e242ccbf2e4ab1bbd705e20cbebf9bd3df739e7a0239a14294b300d83995b092")
 }
 
 func TestCreateAuthorization(t *testing.T) {
