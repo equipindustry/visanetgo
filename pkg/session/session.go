@@ -29,6 +29,7 @@ type Antifraud struct {
 // MerchantDefineData struct.
 type MerchantDefineData struct {
 	Mdd4  string `json:"MDD4"`
+	Mdd21 bool   `json:"MDD21"`
 	Mdd32 string `json:"MDD32"`
 	Mdd75 string `json:"MDD75"`
 	Mdd77 int    `json:"MDD77"`
